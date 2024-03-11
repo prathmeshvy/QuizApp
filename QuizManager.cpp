@@ -1,33 +1,23 @@
-#include<iostream>
-#include<string>
+#include "QuizManager.h"
 
-using namespace std;
-
-class QuizManager
+pair<string, string> QuizManager::GetQuizManager()
 {
-private:
-	string QuizManagerName;
-	string QuizManagerPassword;
-public:
-	QuizManager()
-	{
-		QuizManagerName = "";
-		QuizManagerPassword = "";
-	}
+	pair<string, string> quizmanager;
 
-	void GetQuizManager()
-	{
-		cout << "Enter your username: \n";
-		cin >> this->QuizManagerName;
-		cout << "\nEnter your password: \n ";
-		cin >> this->QuizManagerPassword;
-	}
+	cout << "\nEnter Your Name:\n";
+	cin >> quizmanager.first;
+	cout << "\nEnter Your Password:\n";
+	cin >> quizmanager.second;
 
-	/*void DisplayQuizManager() const
-	{
-		cout << "Username is :\n" << this->QuizManagerName << "\nPassword is:\n" << this->QuizManagerPassword;
-	}*/
+	return quizmanager;
+}
 
-	
+void QuizManager::AddQuiz()
+{
 
-};
+}
+
+void QuizManager::RemoveQuiz()
+{
+
+}

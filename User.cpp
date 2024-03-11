@@ -1,36 +1,30 @@
-#include<iostream>
-#include<string>
+#include "User.h"
+#include "MysqlCon.h";
 
-using namespace std;
-
-class User
+pair<string,string> User::GetUser()
 {
-private:
-	string Username;
-	string Password;
-public:
-	User()
-	{
-		Username = "";
-		Password = "";
-	}
+	pair<string, string> user;
 
-	void GetUser()
-	{
-		std::cout << "Enter your username: \n";
-		std::cin >> this->Username;
-		std::cout << "\nEnter your password: \n ";
-		std::cin >> this->Password;
-	}
+	cout << "\nEnter Your Name:\n";
+	cin >> user.first;
+	cout << "\nEnter Your Password:\n";
+	cin >> user.second;
 
-	void DisplayUser() const
-	{
-		cout << "Username is :\n" << this->Username << "\nPassword is:\n" << this->Password;
-	}
+	return user;
+}
 
-	void PlayQuiz()
-	{
 
-	}
+void User::PlayQuiz()
+{
+	cout << "\n-----Welcome to Quiz Mania-----";
+	ShowAllQuizzes();
+	cout << "\n-----Enter the quiz number you want to play-----\n";
+	cin >> QuizNumber;	//getting quiz number from user
+	StartQuiz(QuizNumber);
 
-};
+}
+
+//void User::TrackProgress(string name) {
+//
+//}
+

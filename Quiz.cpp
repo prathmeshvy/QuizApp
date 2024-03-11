@@ -1,26 +1,12 @@
-#include<iostream>
-#include<string>
+#include "Quiz.h"
 
-using namespace std;
-
-class Quiz
+string Quiz::GetQuizTitle()
 {
-private:
-	int QuizId;
-	string title;
-	string desc;
-public:
-	Quiz()
-	{
-		QuizId = 0;
-		title = "";
-		desc = "";
-	}
+	string QuizTitle;
+	cout << "\nEnter Quiz Title:\n";
+	cin >> QuizTitle;
 
-	void AddQuiz()
-	{
-		
-	}
+	return QuizTitle;
+}
 
 
-};

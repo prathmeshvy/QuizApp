@@ -1,3 +1,4 @@
+#include<iostream>
 #include "Quiz.h"
 
 string Quiz::GetQuizTitle()

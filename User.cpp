@@ -1,6 +1,6 @@
+#include<iostream>
 #include "User.h"
 #include "MysqlCon.h";
-
 pair<string,string> User::GetUser()
 {
 	pair<string, string> user;
@@ -13,14 +13,14 @@ pair<string,string> User::GetUser()
 	return user;
 }
 
-
 void User::PlayQuiz()
 {
 	cout << "\n-----Welcome to Quiz Mania-----";
-	ShowAllQuizzes();
+	Connection obj;
+	obj.ShowAllQuizzes();
 	cout << "\n-----Enter the quiz number you want to play-----\n";
-	cin >> QuizNumber;	//getting quiz number from user
-	StartQuiz(QuizNumber);
+	cin >> QuizNumber;	 //getting quiz number from user
+	obj.StartQuiz(QuizNumber);
 
 }
 

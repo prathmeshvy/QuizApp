@@ -1,7 +1,6 @@
 #pragma once
 #ifndef QUIZ_H
 #define QUIZ_H
-#include<iostream>
 #include<string>
 
 using namespace std;

@@ -3,8 +3,7 @@
 #define USER_H
 
 #include <string>
-#include <string>
-#include <iostream>
+
 using namespace std;
 
 class User

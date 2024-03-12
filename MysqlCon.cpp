@@ -1,10 +1,8 @@
-#include <stdlib.h>
 #include <iostream>
-#include "mysql_connection.h"
-#include <cppconn/driver.h>
-#include <cppconn/exception.h>
-#include <cppconn/prepared_statement.h>
+#include <cctype> // for toupper function
+#include <stdlib.h>
 #include "User.h"
+#include "MysqlCon.h"
 using namespace std;
 
 const string server = "localhost:3306";
@@ -12,16 +10,10 @@ const string username = "root";
 const string password = "#1Eskoitis";
 
 
-void StoreUserInfo(pair<string, string> newuser) {
-	sql::Driver* driver;
-	sql::Connection* con;
+void Connection::StoreUserInfo(pair<string, string> newuser) {
 	sql::PreparedStatement* pstmt;
 
 	try {
-		driver = get_driver_instance();
-		con = driver->connect(server, username, password);
-		con->setSchema("quickstartdb");
-
 		pstmt = con->prepareStatement("INSERT INTO User(Name, Password) VALUES(?,?)");
 		pstmt->setString(1, newuser.first);
 		pstmt->setString(2, newuser.second);
@@ -36,7 +28,7 @@ void StoreUserInfo(pair<string, string> newuser) {
 		}
 
 		delete pstmt;
-		delete con;
+
 	}
 	catch (sql::SQLException& e) {
 		cout << "Could not connect to server. Error message: " << e.what() << endl;
@@ -45,9 +37,7 @@ void StoreUserInfo(pair<string, string> newuser) {
 	}
 }
 
-bool RetrieveUserInfo(pair<string, string> UserCredentials) {
-	sql::Driver* driver;
-	sql::Connection* con;
+bool Connection :: RetrieveUserInfo(pair<string, string> UserCredentials) {
 	sql::PreparedStatement* pstmtUsername;
 	sql::ResultSet* resUsername;
 	sql::PreparedStatement* pstmtPassword;
@@ -56,9 +46,6 @@ bool RetrieveUserInfo(pair<string, string> UserCredentials) {
 	bool userFound = false;
 
 	try {
-		driver = get_driver_instance();
-		con = driver->connect(server, username, password);
-		con->setSchema("quickstartdb");
 
 		// Check if username exists
 		pstmtUsername = con->prepareStatement("SELECT * FROM User WHERE BINARY Name = ?");
@@ -94,7 +81,6 @@ bool RetrieveUserInfo(pair<string, string> UserCredentials) {
 
 		delete resUsername;
 		delete pstmtUsername;
-		delete con;
 	}
 	catch (sql::SQLException& e) {
 		cout << "Could not connect to server. Error message: " << e.what() << endl;
@@ -102,15 +88,9 @@ bool RetrieveUserInfo(pair<string, string> UserCredentials) {
 	}
 }
 
-void StoreQuizManagerInfo(pair<string, string> quizmanager) {
-	sql::Driver* driver;
-	sql::Connection* con;
+void Connection :: StoreQuizManagerInfo(pair<string, string> quizmanager) {
 	sql::PreparedStatement* pstmt;
-
 	try {
-		driver = get_driver_instance();
-		con = driver->connect(server, username, password);
-		con->setSchema("quickstartdb");
 
 		pstmt = con->prepareStatement("INSERT INTO QuizManager(Name, Password) VALUES(?,?)");
 		pstmt->setString(1, quizmanager.first);
@@ -126,7 +106,6 @@ void StoreQuizManagerInfo(pair<string, string> quizmanager) {
 		}
 
 		delete pstmt;
-		delete con;
 	}
 	catch (sql::SQLException& e) {
 		cout << "Could not connect to server. Error message: " << e.what() << endl;
@@ -135,20 +114,17 @@ void StoreQuizManagerInfo(pair<string, string> quizmanager) {
 	}
 }
 
-bool RetrieveQuizManagerInfo(pair<string, string> ManagerCredentials) {
-	sql::Driver* driver;
-	sql::Connection* con;
+bool Connection :: RetrieveQuizManagerInfo(pair<string, string> ManagerCredentials) {
 	sql::PreparedStatement* pstmtName;
 	sql::ResultSet* resName;
 	sql::PreparedStatement* pstmtPassword;
 	sql::ResultSet* resPassword;
 
+
+
 	bool QuizManagerFound = false;
 
 	try {
-		driver = get_driver_instance();
-		con = driver->connect(server, username, password);
-		con->setSchema("quickstartdb");
 
 		// Check if manager name exists
 		pstmtName = con->prepareStatement("SELECT * FROM QuizManager WHERE BINARY Name = ?");
@@ -181,7 +157,6 @@ bool RetrieveQuizManagerInfo(pair<string, string> ManagerCredentials) {
 
 		delete resName;
 		delete pstmtName;
-		delete con;
 	}
 	catch (sql::SQLException& e) {
 		cout << "Could not connect to server. Error message: " << e.what() << endl;
@@ -189,17 +164,48 @@ bool RetrieveQuizManagerInfo(pair<string, string> ManagerCredentials) {
 	}
 }
 
-void ShowAllQuizzes() {
-	sql::Driver* driver;
-	sql::Connection* con;
+//void AddQuizToDb(string QuizTitle) {
+//	sql::Driver* driver;
+//	sql::Connection* con;
+//	sql::PreparedStatement* pstmt;
+//
+//	try {
+//		driver = get_driver_instance();
+//		con = driver->connect(server, username, password);
+//		con->setSchema("quickstartdb");
+//
+//		pstmt = con->prepareStatement("SELECT COUNT(*) FROM quizmgmt WHERE quiztitle = ?");
+//		pstmt->setString(1, QuizTitle);
+//		sql::ResultSet* res = pstmt->executeQuery();
+//		res->next();
+//		int count = res->getInt(1);
+//		delete res;
+//		delete pstmt;
+//
+//		if (count > 0) {
+//			cout << "Quiz title already exists in the database." << endl;
+//			return;
+//		}
+//
+//		pstmt = con->prepareStatement("INSERT INTO quizmgmt (quiztitle) VALUES (?)");
+//		pstmt->setString(1, QuizTitle);
+//		pstmt->executeUpdate();
+//
+//		cout << "Quiz title added successfully!" << endl;
+//
+//		delete pstmt;
+//		delete con;
+//	}
+//	catch (sql::SQLException e) {
+//		cout << "Could not add quiz title to the database. Error message: " << e.what() << endl;
+//		exit(1);
+//	}
+//}
+void Connection:: ShowAllQuizzes() {
 	sql::PreparedStatement* pstmt;
 	sql::ResultSet* res;
 
 	try {
-		driver = get_driver_instance();
-		con = driver->connect(server, username, password);
-		con->setSchema("quickstartdb");
-
 		pstmt = con->prepareStatement("SELECT quiz_id, title FROM quizmgmt order by quiz_id");
 		res = pstmt->executeQuery();
 
@@ -210,7 +216,6 @@ void ShowAllQuizzes() {
 
 		delete pstmt;
 		delete res;
-		delete con;
 	}
 	catch (sql::SQLException e) {
 		cout << "Could not connect to server. Error message: " << e.what() << endl;
@@ -219,18 +224,12 @@ void ShowAllQuizzes() {
 	}
 }
 
-void StartQuiz(int QuizNumber) {
-	sql::Driver* driver;
-	sql::Connection* con;
+void Connection:: StartQuiz(int QuizNumber) {
 	sql::PreparedStatement* pstmt;
 	sql::ResultSet* res;
 
 	int Score = 0;
 	try {
-		driver = get_driver_instance();
-		con = driver->connect(server, username, password);
-		con->setSchema("quickstartdb");
-
 		string query = "SELECT * FROM question WHERE quiz_id = ?";
 		pstmt = con->prepareStatement(query);
 		pstmt->setInt(1, QuizNumber);
@@ -246,7 +245,7 @@ void StartQuiz(int QuizNumber) {
 			cout << endl;
 
 			cout << "Give Your Option Number:(A/B/C/D): ";
-			
+
 			string ChosenOption;
 			cin >> ChosenOption;
 
@@ -282,7 +281,6 @@ void StartQuiz(int QuizNumber) {
 
 		delete res;
 		delete pstmt;
-		delete con;
 	}
 	catch (sql::SQLException e) {
 		cout << "Could not connect to server. Error message: " << e.what() << endl;

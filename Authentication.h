@@ -2,7 +2,6 @@
 #ifndef AUTHENTICATION_H
 #define AUTHENTICATION_H
 
-#include <iostream>
 #include <string>
 using namespace std;
 

@@ -1,4 +1,7 @@
+#include<iostream>
 #include "QuizManager.h"
+#include "Quiz.h"
+#include "MysqlCon.h"
 
 pair<string, string> QuizManager::GetQuizManager()
 {
@@ -12,12 +15,15 @@ pair<string, string> QuizManager::GetQuizManager()
 	return quizmanager;
 }
 
-void QuizManager::AddQuiz()
-{
+//void QuizManager::AddQuiz()
+//{
+//	Quiz quiz;
+//	string QuizTitle=quiz.GetQuizTitle();
+//	AddQuizToDb(QuizTitle);
+//
+//}
 
-}
-
-void QuizManager::RemoveQuiz()
-{
-
-}
+//void QuizManager::RemoveQuiz()
+//{
+//
+//}
